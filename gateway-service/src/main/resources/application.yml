@@ -1,0 +1,43 @@
+server:
+  port: 80
+  
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    prefer-ip-address: true
+    
+zuul:
+  ignoredServices: '*'
+  routes:
+    user-service:
+      path: /user/**
+      service-id: user-service
+      sensitive-headers: 
+    uaa:
+      path: /uaa/**
+      strip-prefix: false
+      service-id: auth-service
+      sensitive-headers: 
+  add-proxy-headers: true
+
+spring:
+  application:
+    name: gateway-service  
+
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:8082/uaa/user
+
+#Logging
+logging:
+  level:
+    com.test: DEBUG
+    org.springframework: INFO
+    org.springframework.web: DEBUG
+  file: logs/discovery-service.log
+  pattern:
+    file: "%d %-5level [%thread] %logger : %msg%n"
+    level: DEBUG

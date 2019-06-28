@@ -1,0 +1,29 @@
+server:
+  port: 8180
+  
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: test
+  security:
+    filter:
+      dispatcher-types:
+      - async
+      - error
+      - request
+      - forward
+
+# Logging
+logging:
+  level:
+    com.test.central: DEBUG
+    org.springframework: INFO
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+  file: logs/central.log
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+    level: DEBUG

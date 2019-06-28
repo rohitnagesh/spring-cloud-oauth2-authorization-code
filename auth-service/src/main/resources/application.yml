@@ -1,0 +1,61 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /uaa
+    session:
+      cookie:
+        name: UISESSION
+  
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    prefer-ip-address: true
+    
+spring:
+  application:
+    name: auth-service  
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: test
+  security:
+    oauth2:
+      client:
+        registration:
+          central:
+            client-name: central
+            authorization-grant-type: authorization_code
+            client-id: test
+            client-secret: 123456789
+            scope:
+              - user_info
+            redirect-uri: ${gateway.uri}:8082/uaa/login/oauth2/code/
+            client-authentication-method: basic
+            provider: central
+        provider:
+          central:
+            token-uri: ${central.uri}/oauth/token
+            authorization-uri: ${central.uri}/oauth/authorize
+            user-info-uri: ${central.uri}/user/me
+            jwk-set-uri: ${central.uri}/oauth/token_key
+            user-name-attribute: name
+
+gateway:
+  uri: http://localhost
+central:
+  uri: http://localhost:8180
+   
+#Logging
+logging:
+  level:
+    com.test: DEBUG
+    org.springframework: INFO
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+  file: logs/auth-service.log
+  pattern:
+    file: "%d %-5level [%thread] %logger : %msg%n"
+    level: DEBUG

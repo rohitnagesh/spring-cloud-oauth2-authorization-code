@@ -1,0 +1,23 @@
+server:
+  port: 8081
+  
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    prefer-ip-address: true
+    
+spring:
+  application:
+    name: user-service  
+  
+#Logging
+logging:
+  level:
+    com.test: INFO
+    org.springframework: INFO
+  file: logs/user-service.log
+  pattern:
+    file: "%d %-5level [%thread] %logger : %msg%n"
+    level: DEBUG

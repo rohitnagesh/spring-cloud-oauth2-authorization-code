@@ -1,0 +1,14 @@
+{
+	"properties": [
+		{
+			"name": "gateway",
+			"type": "java.util.Map",
+			"description": "A description for 'gateway'"
+		},
+		{
+			"name": "central",
+			"type": "java.util.Map",
+			"description": "A description for 'gateway'"
+		}
+	]
+}
